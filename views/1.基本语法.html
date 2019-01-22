@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本语法</title>
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+   <script src="../node_modules/babel-standalone/babel.js"></script>
+   <script src="../node_modules/react/umd/react.development.js"></script>
+   <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <style>
+        .red{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+    //{}  插值符号，里面js代码
+    //手动转换效率太低，需要进行自动解析编译
+    //解决：script增加一个类型
+    //babel转换器  为了学习掌握基本语法
+    //后期转换可以使用脚手架
+</script>
+<script type="text/babel">
+    function element2() {
+        return (
+            //class 在es6中关键字  jsX使用className代替
+            <h3>
+                <span className="red">snrnfin</span>
+            </h3>
+        );
+    }
+    //js中写标签是jsX
+    const element1=(<div>
+        <h1>hello word</h1>
+        { //插值符号，里面js代码, 不能是if判断
+            // 可以是表达式，自执行函数
+            console.log(1)
+            // /**/  js注释
+        }
+        <h2>hello react</h2>
+    </div>);
+    //渲染
+    ReactDOM.render(
+       // <h1>h1</h1>,  //这个位置必须是元素，并且只有一个根元素，1.变量2.函数返回元素
+        //element1,
+        element2(), //函数
+        document.querySelector("#app")
+    );
+</script>
+
+</body>
+</html>

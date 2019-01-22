@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+    <!--labelJs  npm安装  框架代码解析器  转换成浏览器认识的语言-->
+    <script src="../node_modules/babel-standalone/babel.js"></script>
+</head>
+<body>
+    <script>
+        const es6=`{name:1}`;
+      console.log(Babel.transform(es6,{presets:['es2015']}));
+
+        //手动转换效率太低，需要进行自动解析编译
+        //解决：script增加一个类型
+        //babel转换器  为了学习掌握基本语法
+        //后期转换可以使用脚手架
+    </script>
+    <script type="text/babel">
+
+    </script>
+
+</body>
+</html>

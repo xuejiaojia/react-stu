@@ -1,0 +1,24 @@
+{
+  "name": "react-stu",
+  "version": "1.0.0",
+  "description": "react",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuejiaojia/react-stu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xuejiaojia/react-stu/issues"
+  },
+  "homepage": "https://github.com/xuejiaojia/react-stu#readme",
+  "dependencies": {
+    "babel-standalone": "^6.26.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  }
+}
