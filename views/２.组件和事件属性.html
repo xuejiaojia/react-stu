@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>基本语法</title>
+    <title>组件属性及事件</title>
     <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
    <script src="../node_modules/babel-standalone/babel.js"></script>
    <script src="../node_modules/react/umd/react.development.js"></script>
@@ -14,7 +14,22 @@
     </style>
 </head>
 <body>
-<div id="app"></div>
+<script>
+    //js框架2016进行核心架构重构
+    //都是使用es6编码
+    事件绑定，{handerClick}绑定函数方法,call,bind方法使用
+    属性绑定，style 行内样式不能直接写，{}需要对象绑定
+    组将使用es6 class
+/*
+* 组件两个重要概念
+* state 状态 负责页面数据 渲染页面
+* props 属性  传值
+* */
+</script>
+
+<div id="app">
+
+</div>
 <script>
     //{}  插值符号，里面js代码
     //手动转换效率太低，需要进行自动解析编译
@@ -22,11 +37,31 @@
     //babel转换器  为了学习掌握基本语法
     //后期转换可以使用脚手架
 </script>
+
+<script type="text/babel">
+    /*
+    * 声明式无状态组件
+    * */
+    function Header(props) {
+        // props  可以获取组件的属性键值。进行传值
+        console.log(props)　　//{title: "无状态头部", data: "date"}
+        return　(
+                <header>头部</header>
+            )
+
+    }
+</script>
 <script type="text/babel">
     function element2() {
+         let data="date";
         return (
             //class 在es6中关键字  jsX使用className代替
+
             <h3>
+                <Header
+                    title={'无状态头部'}
+                    data={data}
+                ></Header>
                 <span className="red">snrnfin</span>
             </h3>
         );

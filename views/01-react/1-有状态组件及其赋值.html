@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>有状态组件</title>
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+   <script src="../../node_modules/babel-standalone/babel.js"></script>
+   <script src="../../node_modules/react/umd/react.development.js"></script>
+   <script src="../../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/babel">
+    /*
+    * 定义header 组件继承react component组件
+    * 可以使用其方法，属性
+    * 该组件为有状态组件
+    * */
+    class Head extends React.Component{
+
+        constructor(){
+            //构造函数中this是head对象，但书获取不到this.props 数据
+
+            //因为使用的是react component组件
+           /*
+           * 如果构造函数中不使用this.props 可以不用传参
+           *
+           * */
+            super(...arguments)   //执行父类构造函数
+            this.name="jia"
+            this.age=18
+            //相应式数据
+            this.state={
+                //固定写法。 后端返回的数据，挂在到
+                //state 负责当前组件的用户界面
+
+                data: this.props.text
+            }
+
+            //修改this  方法2
+            this.handleClick2=this.handleClick1.bind(this)
+        }
+        //挂载到原型
+        say(){
+            console.log("say")
+        }
+        //需要修改this指向，父类方法  3种方式
+        handleClick1(data,e){
+            //this 指向　ｕｎｄｅｆｉｎｅｄ
+           //this.state.data="重新复制"  不会生效
+            this.setState({
+                data:"重新赋值"
+            })
+            console.log(data)
+            console.log(e)
+        }
+        handleClick2(){
+            console.log("222")
+        }
+       /* 方法3  修改this指向*/
+        handleClick3=()=>{
+            console.log(this)
+        }
+        /*方法4*/
+        handleClick4(res,e){
+            //在箭头函数中 this指父级this
+            console.log(this)
+            console.log(res)
+            console.log(e)
+        }
+        render(){ //渲染
+            return　(
+                <div>
+                    {
+                        //方法1  this指向
+                    }
+                <header onClick={this.handleClick1.bind(this,"数据参数")}>{this.state.data && this.state.data}</header>
+                    {/*
+                        方法2
+                        不适合传参会自执行
+                    */}
+                 <header onClick={this.handleClick2}>{this.state.data && this.state.data}</header>
+                    {/*方法3*/}
+                <header onClick={this.handleClick3}>{this.state.data && this.state.data}</header>
+
+                <header onClick={(e)=>{this.handleClick4("数据s",e)}}>{this.state.data && this.state.data}</header>
+                </div>
+            )
+        }
+    }
+
+    let element=(
+        <div>
+            <hr/>
+            <Head
+                text="这是有状态组件"
+            ></Head>
+            <hr/>
+        </div>
+    )
+    ReactDOM.render(
+        element,
+        document.querySelector("#app")
+    )
+</script>
+</body>
+</html>
