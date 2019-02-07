@@ -4,10 +4,70 @@
     <meta charset="UTF-8">
     <title>选项卡案例</title>
     <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+   </head>
+<body>
+    <div id="app"></div>
     <script src="../../node_modules/babel-standalone/babel.js"></script>
     <script src="../../node_modules/react/umd/react.development.js"></script>
     <script src="../../node_modules/react-dom/umd/react-dom.development.js"></script>
-</head>
-<body>
+    <script src="./data2.js"></script>
+    <script type="text/babel">
+        //数据驱动视图
+        class App extends React.Component{
+            constructor(){
+                super()
+            }
+            state={
+                arr:[true,false,false]
+            }
+            handlerClick=(index)=>{
+                    const arr=this.state.arr;
+                    arr[index]=!arr[index]
+
+                    //更新数据,必须要更新否则组建中数据不变，没有效果
+                this.setState({arr})
+
+            }
+            getData=()=>{
+                return dataList;
+            }
+            render(){
+                //获取数据
+                const data=this.getData()
+                return (
+                    <div>
+                        {
+                            Object.keys(data).map((item,index)=>{
+                                return (
+                                    <div key={index}>
+                                        <h2 onClick={this.handlerClick.bind(this,index)}>{data[item].name}</h2>
+                                        {
+                                            this.state.arr[index] && (<ol>
+                                                {
+                                                    data[item].list.map((item,index)=>{
+                                                        return (
+                                                            <li key={index}>
+                                                                <p>{item.name}</p>
+                                                                <p>{item.sex}</p>
+                                                                <p>{item.description}</p>
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ol>)
+                                        }
+                                    </div>
+                                )
+                         })
+                        }
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+           <App> </App> ,
+            document.querySelector("#app")
+        )
+    </script>
 </body>
 </html>

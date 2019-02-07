@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡案例</title>
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+  <style>
+      .list{
+          overflow: hidden;
+      }
+  </style>
+   </head>
+<body>
+    <div id="app"></div>
+    <script src="../../node_modules/babel-standalone/babel.js"></script>
+    <script src="../../node_modules/react/umd/react.development.js"></script>
+    <script src="../../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script type="module">
+        import {dataList} from "./data.js";
+        //挂载到全局
+
+        window.dataList=dataList;
+    </script>
+    <script type="text/babel">
+        class List extends  React.Component{
+            render(){
+                const list=this.props.list;
+                return (
+                    <div>
+                        <ol>
+                            {
+                                list.map((item,index)=>{
+                                    return (
+                                        <li key={index}>
+                                            <p>{item.name}</p>
+                                            <p>{item.sex}</p>
+                                            <p>{item.description}</p>
+                                        </li>
+                                    )
+
+                                })
+                            }
+                        </ol>
+                    </div>
+                )
+            }
+        }
+        class Content extends React.Component{
+            constructor(){
+                super(...arguments)
+                this.state={
+                    //构造函数中获取数据，需要接受参数
+                    onOff:this.props.show
+                }
+                //构造器中函数 只能执行一次  父组件数据刷新 子组件不能及时刷新
+                //  使用生命钩子
+
+            }
+
+            //  组件数据改变 调用
+            shouldComponentUpdate(nextProps, nextState) {
+
+                if(this.state.onOff != nextProps.show){
+                    this.setState({
+                        onOff: nextProps.show
+                    })
+                }
+                if(this.state.onOff!=nextState.onOff){
+                    this.toggleList(nextState.onOff)
+                }
+
+                return true;
+            }
+            //组件加载完成
+            componentDidMount() {
+                this.toggleList(this.state.onOff);
+            }
+
+            // 切换元素 高度,显示 隐藏
+            toggleList=(onOff)=>{
+                const  ele=this._list
+                if(onOff){
+                    ele.style.height=ele.scrollHeight+"px"
+                }else{
+                    ele.style.height=0;
+                }
+            }
+            handlerClick=()=>{
+
+                const onOff = !this.state.onOff;
+
+                //更新数据,必须要更新否则组建中数据不变，没有效果
+                this.setState({onOff})
+                //展示当前 隐藏其他项
+                //  获取index
+
+                //子组件调用父组件方法
+               this.props.change(this.props.index)
+
+
+            }
+            render(){
+                //解构赋值
+                const {name,list}=this.props;
+
+                return (
+                    <div>
+                        <h2 onClick={this.handlerClick}>{name}</h2>
+                        <div className="list"
+                            ref={lista=>this._list=lista}
+                        >
+                            <List list={list}>
+
+                            </List>
+                        </div>
+
+
+                    </div>
+                )
+            }
+        }
+        //数据驱动视图
+        class App extends React.Component{
+
+            state={
+                arr:[true,false,false]
+            }
+            handlerChange=(i)=>{
+
+                const arr=this.state.arr.map((item,index)=>{
+                    if(i===index) return true;
+                    return false;
+                })
+
+                //刷新数据
+                this.setState({arr})
+            }
+           /* handlerClick=(index)=>{
+                    const arr=this.state.arr;
+                    arr[index]=!arr[index]
+
+                    //更新数据,必须要更新否则组建中数据不变，没有效果
+                this.setState({arr})
+
+            }*/
+            getData=()=>{
+                return window.dataList;
+            }
+            render(){
+                //获取数据
+                const data=this.getData()
+                return (
+                    <div>
+                        {
+                            Object.keys(data).map((item, index) => {
+                                return (
+                                    <Content
+                                        key={index}
+                                        {...data[item]} //解构赋值，传参
+                                         show={this.state.arr[index]}
+                                        change={this.handlerChange}
+                                        index={index}
+                                    > </Content>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+           <App> </App> ,
+            document.querySelector("#app")
+        )
+    </script>
+</body>
+</html>
