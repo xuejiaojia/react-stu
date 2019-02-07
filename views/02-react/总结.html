@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>总结</title>
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="../../node_modules/babel-standalone/babel.js"></script>
+    <script src="../../node_modules/react/umd/react.development.js"></script>
+    <script src="../../node_modules/react-dom/umd/react-dom.development.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/babel">
+    /*
+    * 插值符号{}
+    * {}  数字 布尔 字符串 表达式 即时函数 数组（可自动展开）
+    *
+    * class  -> className={'string'}
+    * style -> style ={object}
+    * value -> defailValue
+    * 单标签 闭合
+    * */
+
+
+    /*
+    *基于虚拟DOM
+    * 1.多种方式操作dom
+    * 只有插入文档之后变成真正的DOM
+    * 组件中获取真是dom  使用ref
+    * 大部分使用dom的固定引用，而非findDOMNode
+    * 组件中render 为null, findDOMNode也为null
+    * */
+
+    class Element extends React.Component{
+        constructor(){
+            super();
+        }
+         handlerClick(e){
+            //1.通过id 获取dom
+            //2.事件对象   e 源对象
+             /*以下操作比较好，基于虚拟ＤＯＭ*/
+            //3.ref属性 操作  this.refs.btn  官方推荐
+             // 4.ReactDOM.findDOMNode()
+            //获取属性方式，以下获取的一样
+            // const target=e.target;
+            //const {target} =e;
+
+        }
+        render(){
+            return (
+                <div>
+                    <h1>hello word</h1>
+                    {
+                        //ref 官方推荐回调函数
+                        //通过这种对象挂载到实例对象上   获取方式this._div
+                    }
+                    <div
+                        ref={itermDiv=>this._div=itermDiv}
+                    >div</div>
+                    <input
+                        ref={'btn'}
+                        type="button"
+                        defaultValue="操作dom"
+                        onClick={this.handlerClick.bind(this,e)}
+                    />
+                </div>
+            )
+        }
+    }
+
+    let element= (
+       /* <div>
+         {[<h1></h1>,<h2></h2>,<h3></h3>]}
+        </div>*/
+
+    )
+
+        ReactDOM.render(
+            <Element></Element>,
+            document.querySelector("#app")
+        )
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件总结</title>
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="../../node_modules/babel-standalone/babel.js"></script>
+    <script src="../../node_modules/react/umd/react.development.js"></script>
+    <script src="../../node_modules/react-dom/umd/react-dom.development.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/babel">
+   /*
+   * 组件２个重要概念
+   *    state 状态
+   *    props 组建传值/通讯
+   *
+   *
+   * */
+   class　List extends React.Component{
+       render(){
+           return (
+               <div>
+                   <h2>{this.props.abc}</h2>
+                   <h2>{this.props.data}</h2>
+                   {
+                       //自组件调用父组件方法
+                   }
+                   <button onClick={this.props.fn.bind(this,"自组件数据")}>按钮</button>
+                   <button onClick={()=>{this.props.fn("箭头函数")}}>按钮2</button>
+               </div>
+           )
+       }
+   }
+    class Element extends React.Component{
+        constructor(){
+            super();
+        }
+        state={
+            data:"父组件数据"
+        }
+        getData(res){
+            console.log("父组件方法")
+            console.log(res)
+        }
+        render(){
+            return (
+                <div>
+                    <List
+                        abc={'list'}
+                        data={this.state.data}
+                        fn ={this.getData}
+                    > </List>
+                </div>
+            )
+        }
+    }
+
+
+        ReactDOM.render(
+            <Element></Element>,
+            document.querySelector("#app")
+        )
+</script>
+</body>
+</html>
