@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期</title>
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="../../node_modules/babel-standalone/babel.js"></script>
+    <script src="../../node_modules/react/umd/react.development.js"></script>
+    <script src="../../node_modules/react-dom/umd/react-dom.development.js"></script>
+
+</head>
+<body>
+<div id="app"></div>
+<script type="text/babel">
+    class List extends React.Component{
+        constructor(){
+            super(...arguments);
+            this.state={
+                list:'这是list组件',
+                title:this.props.title
+            }
+            console.log('第二阶段，构造函数')
+        }
+
+        componentWillReceiveProps(nextProps) {
+            //父组件更新 触发子组件 该函数  nextProps更新时带来的数据
+            console.log(nextProps)
+            //获取父组件更新时 带来的数据
+            this.setState({
+                title:nextProps.title
+            })
+        }
+
+        shouldComponentUpdate(nextProps, nextState) {
+            //与componentWillReceiveProps一样可以实现相同效果，但是更强大
+            //是否将要更新组件
+            //true 更新 执行render; false 不更新渲染
+            console.log('第二阶段 是否更新')
+        }
+
+        componentWillUpdate(nextProps, nextState) {
+            console.log('第二阶段 即将被更新')
+        }
+
+        componentDidUpdate(prevProps, prevState) {
+            //完成更新
+            console.log('组件更新完成06')
+        }
+        componentWillUnmount() {
+            //组件即将被销毁
+            console.log('第三阶段 组件即将被销毁')
+        }
+        render(){
+            //第二阶段 第五步渲染
+            return (
+                <div>
+                    <h2>第二阶段</h2>
+                    <p>
+                        {this.state.title}
+                    </p>
+                </div>
+            )
+        }
+    }
+    class App extends React.Component{
+        //当前租件维护当前组件的数据
+        constructor(){
+            super()
+            //第一步　　构造函数 只能执行一次
+            //this.setState() this.props this.state 是异步的
+            this.state={
+                a:"标题",
+                b:"文章"
+            }
+        }
+        componentWillMount() {
+            //第二步　　即将挂载调用一次，还没有render 渲染
+            //不能做dom操作 可以请求后端资源，真是测试 会出现白屏
+            this.setState({
+                c:"请求的数据"
+            })
+        }
+
+        componentDidMount() {
+            console.log("04-组件渲染完成， 第一阶段完成 即打开网页")
+            //真实的场景 会在此请求后端数据
+            //请求数据挂载到state中，好处
+            //1.当前组件根据state的数据进行渲染
+            //2.state 数据是响应式的 数据变化，就会自动重新渲染，触发render 函数
+            //3.维护当前组件的数据
+        }
+        handlerClick=()=>{
+            this.setState({
+                a:'父组件更新数据'
+            })
+        }
+
+
+
+        render(){
+            //第三步  渲染  可对state数据进行处理
+            return (
+                <div>
+                    <h1>App</h1>
+                    <List title={this.state.a}> </List>
+                    <button onClick={this.handlerClick}>点击更新</button>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(
+       <App> </App>,
+        document.querySelector("#app")
+    )
+</script>
+</body>
+</html>
